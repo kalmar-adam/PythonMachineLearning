@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+import numpy
 from scipy import stats
 
 #source: w3schools
@@ -29,6 +30,7 @@ def linearreg():
     sum_x_square = sum(x)**2
     a = ((sum_y*sum_xsqare) - (sum_x * sum_xy)) / ((len(x)*sum_xsqare) - sum_x_square)
     b = ((len(x)*sum_xy) - (sum_x*sum_y)) / ((len(x)*sum_xsqare)-(sum_x_square))
+
     print("a and intercept shold be equal", a, intercept)
     print("b and slope shold be equal", b, slope)
     
@@ -45,13 +47,33 @@ def relationship():
     x = [5,7,8,7,2,17,2,9,4,11,12,9,6]
     y = [99,86,87,88,111,86,103,87,94,78,77,85,86]
 
+    x = [3, 3 , 6]
+    y= [2, 3, 4]
+
     """
         r stands for relation ship between -1 and 1
     """
 
+    
+
     slope, intercept, r, p, std_err = stats.linregress(x, y)
 
-    print(r) # ~ -0.76
+    # calc r with no scipy or numpy pkg
+    # formula R = (1/n-1) * (SUM(SUM((x-xmean)*(y-ymean))) / (x_std * y_std))
+    x_mean = sum(x)/len(x)
+    x_std = [(_x-x_mean)**2 for _x in x]
+    x_std = (sum(x_std) / len(x_std))**0.5
+    y_mean = sum(y)/len(y)
+    y_std = [(_y-y_mean)**2 for _y in y]
+    y_std = (sum(y_std) / len(y_std))**0.5
+
+    SUM_SUM = 0
+    for idx, _ in enumerate(x):
+        SUM_SUM += (x[idx]-x_mean)*(y[idx]-y_mean)
+
+    # print(x_std, y_std, numpy.std(x), numpy.std(y))
+    R = (SUM_SUM / (x_std*y_std*(len(x)-0)))
+    print(r, R) # ~ -0.76
 
 def predict_future():
     x = [5,7,8,7,2,17,2,9,4,11,12,9,6]
@@ -84,4 +106,4 @@ def bad_fit():
     plt.show()
 
 
-linearreg()
+relationship()
