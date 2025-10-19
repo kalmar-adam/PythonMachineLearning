@@ -11,6 +11,15 @@ print("speed", speed)
 standard_deviation_of_speed = numpy.std(speed)
 print("standard_deviation_of_speed", standard_deviation_of_speed)
 
+# non-numpy way calc
+mean = sum(speed)/len(speed)
+speed_mean_diffs = [s-mean for s in speed]
+speed_mean_diff_square = [s**2 for s in speed_mean_diffs]
+std = (sum(speed_mean_diff_square) / len(speed_mean_diff_square))**0.5 # if you want to get variance, just omit **0.5
+print(std)
+
+
+
 # wider range of values (not so close to mean)
 speed2 = [32,111,138,28,59,77,97]
 standard_deviation_of_speed2 = numpy.std(speed2)
